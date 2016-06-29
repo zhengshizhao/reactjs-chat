@@ -1,0 +1,28 @@
+{
+  "name": "reactjs-chat",
+  "version": "1.0.0",
+  "description": "A simple chat application must allow 2 separate users to connect and send a message to each other through websockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhengshizhao/reactjs-chat.git"
+  },
+  "keywords": [
+    "socket.io",
+    "react"
+  ],
+  "author": "zhengshi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhengshizhao/reactjs-chat/issues"
+  },
+  "homepage": "https://github.com/zhengshizhao/reactjs-chat",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.4.8"
+  }
+}
