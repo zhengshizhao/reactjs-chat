@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>reactJS chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css">
     <link href="style.css" type="text/css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -9,9 +10,10 @@
     <script src="chat.js"></script>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>     
-    </form>
+            <ul id="messages"></ul>
+            <form action="">
+              <input id="m" autocomplete="off" /><button id="send">Send</button>     
+            </form>
+        
   </body>
 </html>
