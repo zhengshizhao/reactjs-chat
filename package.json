@@ -4,7 +4,7 @@
   "description": "A simple chat application must allow 2 separate users to connect and send a message to each other through websockets",
   "main": "index.js",
   "scripts": {
-    "build": "browserify ./browser/chat.jsx -t babelify --outfile ./browser/chat.js",
+    "build": "browserify ./jsx/chat.jsx -t babelify --outfile ./browser/chat.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

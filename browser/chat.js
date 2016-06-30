@@ -13,9 +13,9 @@ var UsersList = React.createClass({
 			'div',
 			{ className: 'users' },
 			React.createElement(
-				'h3',
+				'h5',
 				null,
-				' Who is online '
+				'Online '
 			),
 			React.createElement(
 				'ul',
@@ -84,7 +84,6 @@ var MessageForm = React.createClass({
 	},
 
 	//when clicked, shows this is typing
-
 	handleClick: function handleClick(e) {
 		e.preventDefault();
 		var message = {
@@ -109,7 +108,7 @@ var MessageForm = React.createClass({
 				' ',
 				React.createElement(
 					'button',
-					{ className: 'send_btn' },
+					null,
 					'Send'
 				)
 			)
@@ -183,7 +182,6 @@ var ChatApp = React.createClass({
 		this.setState({ users: users, messages: messages });
 	},
 	handleMessageFormClick: function handleMessageFormClick(message) {
-
 		socket.emit('user:typing', message);
 	},
 	handleMessageSubmit: function handleMessageSubmit(message) {
@@ -192,7 +190,7 @@ var ChatApp = React.createClass({
 	render: function render() {
 		return React.createElement(
 			'div',
-			null,
+			{ className: 'chat-window' },
 			React.createElement(UsersList, {
 				users: this.state.users
 			}),
