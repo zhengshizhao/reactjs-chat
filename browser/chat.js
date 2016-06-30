@@ -92,7 +92,13 @@ var MessageForm = React.createClass({
 		this.props.onMessageClick(message);
 	},
 	changeHandler: function changeHandler(e) {
-		this.setState({ text: e.target.value, typing: '' });
+		this.setState({ text: e.target.value });
+		if (this.state.text) {
+			var message = {
+				user: this.props.user
+			};
+			this.props.onMessageClick(message);
+		}
 	},
 	render: function render() {
 		return React.createElement(
@@ -153,7 +159,7 @@ var ChatApp = React.createClass({
 
 		users.push(name);
 		messages.push({
-			user: 'System anounce',
+			user: 'System anouncement:',
 			text: name + ' Joined'
 		});
 		this.setState({ users: users, messages: messages });
@@ -176,7 +182,7 @@ var ChatApp = React.createClass({
 		var index = users.indexOf(name);
 		users.splice(index, 1);
 		messages.push({
-			user: 'System anounce',
+			user: 'System anouncement:',
 			text: name + ' Left'
 		});
 		this.setState({ users: users, messages: messages });
