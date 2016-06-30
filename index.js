@@ -3,6 +3,7 @@ var http = require('http');
 var server = http.createServer();
 var express = require('express');
 var app = express();
+var React = require('react');
 
 var socketio = require('socket.io'); 
 
@@ -17,25 +18,8 @@ app.get('/', function (req, res) {
 // creates a new connection server for web sockets and integrates it into HTTP server 
 var io = socketio(server);
 // use socket server as an event emitter in order to listen for new connctions
-io.on('connection', function(socket){
-  //receives the newly connected socket
-	console.log(socket.id + ' has connected');
-	socket.broadcast.emit('user','A new user is online');
-  //disconnect 
-  socket.on('disconnect', function(){
-    console.log(socket.id + ' has disconnected.'); 
-  })
-
-  socket.on('chat message', function(msg){
-  	// console.log("msg", msg);
-    io.emit('chat message', msg);
-  });
-
-  socket.on('type', function(typing){
-  	socket.broadcast.emit('type', typing);
-  })
-
-})
+var sokect = require('./routes/socket.js')
+io.on('connection', sokect)
 
 var port = 3000;
 server.listen(port, function () {

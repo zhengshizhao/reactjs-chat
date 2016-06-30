@@ -5,35 +5,49 @@
 }
 body { 
 	font: 13px Helvetica, Arial; 
+	/*width: 600px;*/
+	margin: 0 auto;
+	border: 2px solid #363770;
+	border-radius: 1%;
 }
-.msg-window {
-	width: 800px;
+#app {
+	max-height:95vh;
+	height: 500px;
 }
-form { 
-	background: #000; 
-	padding: 3px; 
-	position: fixed; 
-	bottom: 0; 
-	width: 100%; 
+.chat-window {
+	width: 100%;
+	height:100%;
 }
-form input { 
-	border: 0; 
-	padding: 10px; 
-	width: 90%; 
-	margin-right: .5%; 
+.users{
+	position: fixed;
+	right: 1%;
+	width:15%;
+	border: 1px solid #363770;
+	border-radius: 1%;
 }
-form button { width: 9%; 
-	background: rgb(130, 224, 255); 
-	border: none; 
-	padding: 10px; 
+.users ul { 
+	list-style-type: none;
 }
-#messages { list-style-type: none; 
-	margin: 0; 
-	padding: 0; 
+.messages {
+	width: 80%;
+	height:85%;
+	margin: 1%;
+	border : 1px solid black;
+	padding: 1%;
 }
-#messages li { 
-	padding: 5px 10px; 
-}
-#messages li:nth-child(odd) { 
+.messages div:nth-child(odd) { 
 	background: #eee; 
+}
+.message_form {
+	width: 80%;
+	margin-left: 1%;
+    padding:5% auto;
+}
+.message_form input {
+	width: 70%;
+}
+.message_form button {
+ 	width: 25%;
+ 	background: #363770;
+ 	color: #FFFFFF;
 }
