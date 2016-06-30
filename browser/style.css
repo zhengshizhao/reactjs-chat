@@ -9,6 +9,7 @@ body {
 	margin: 0 auto;
 	border: 2px solid #363770;
 	border-radius: 1%;
+	background: #EEEEEE;
 }
 #app {
 	max-height:95vh;
@@ -29,14 +30,33 @@ body {
 	list-style-type: none;
 }
 .messages {
+	position:relative;
 	width: 80%;
 	height:85%;
 	margin: 1%;
 	border : 1px solid black;
 	padding: 1%;
+	display:block;
 }
-.messages div:nth-child(odd) { 
-	background: #eee; 
+.message {
+	width: 100%;
+	
+}
+.mymessage {
+	width: 100%;
+	margin: 1%;
+    text-align: right;
+    color: #363770;
+}
+.othersmessage {
+	width: 50%;
+	margin: 1%;
+	background: #363770;
+	color: #FFFFFF;
+}
+.anouncement {
+	color: red;
+	background: #EEEEEE;
 }
 .message_form {
 	width: 80%;

@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var classNames = require('classnames');  
 //var socket = io.connect();
 var socket = io(window.location.origin); 
  
@@ -26,12 +27,22 @@ var UsersList = React.createClass({
 	}
 });
 var Message = React.createClass({
+	
 	render() {
+		var messageClassnames = classNames({
+				'message': true,
+				'mymessage': this.props.user === 'Me',
+				'othersmessage': this.props.user !== 'Me',
+				'anouncement': this.props.user === 'System anouncement:'
+	   });
+		 
 		return ( 
-			<div className="message">
+			
+			<div className={messageClassnames}>
 				<strong>{this.props.user} </strong> 
 				<span>{this.props.text}</span>		
-			</div>		
+			</div>	
+			
 		);
 	}
 });
