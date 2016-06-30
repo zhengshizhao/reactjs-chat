@@ -1,3 +1,14 @@
+This ReactJS chat application is built by using Node, Express, React and Socket.io.
+
+After clone this repository, run :
+
+```
+npm install
+npm run build
+npm start
+```
+---------------
+
 Description:
 
 Create a simple ReactJS chat application that connects to a NodeJs backend. A simple chat application must allow 2 separate users to connect and send a message to each other through websockets. Specific tasks and their respective points are listed below:
