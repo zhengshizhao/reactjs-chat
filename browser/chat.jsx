@@ -68,11 +68,20 @@ var MessageForm = React.createClass({
 			text : this.state.text
 		}
 		this.props.onMessageSubmit(message);	
-		this.setState({ text: '' });
+		this.setState({ text: ''});
+	},
+	//when clicked, shows this is typing
+
+	handleClick(e) {
+		e.preventDefault();
+		var message = {
+			user : this.props.user
+		}
+		this.props.onMessageClick(message);
 	},
 
 	changeHandler(e) {
-		this.setState({ text : e.target.value });
+		this.setState({ text : e.target.value, typing:''});
 	},
 
 	render() {
@@ -80,8 +89,8 @@ var MessageForm = React.createClass({
 			<div className='message_form'>
 				<form onSubmit={this.handleSubmit}>
 					<input
-						onChange={this.changeHandler}
-						value={this.state.text}
+						onChange={this.changeHandler} onClick={this.handleClick}
+						value={this.state.text} placeholder={this.props.typing}
 					/> <button className="send_btn">Send</button>
 				</form>
 			</div>
@@ -92,13 +101,14 @@ var MessageForm = React.createClass({
 var ChatApp = React.createClass({
 
 	getInitialState() {
-		return {users: [], messages:[], text: ''};
+		return {users: [], messages:[], text: '', typing:''};
 	},
 
 	componentDidMount() {
 		socket.on('init', this._initialize);
 		socket.on('send:message', this._messageRecieve);
 		socket.on('user:join', this._userJoined);
+		socket.on('user:typing', this._userTyping);
 		socket.on('user:left', this._userLeft);
 	},
 	_initialize(data) {
@@ -107,9 +117,10 @@ var ChatApp = React.createClass({
 	},
 	
 	_messageRecieve(message) {
-		var {users, messages} = this.state;
+		var {users, messages, typing} = this.state;
+		var {typing} = "";
 		messages.push(message);
-		this.setState({users,messages});
+		this.setState({users,messages,typing});
 	},
 	_userJoined(data) {
 	var {users, messages} = this.state;
@@ -120,6 +131,13 @@ var ChatApp = React.createClass({
 		text : name +' Joined'
 	});
     this.setState({users, messages});
+	},
+	//_usertyping added
+	_userTyping(data) {
+        var {typing} = this.state;
+		var {typing} = data
+		//messages.push(data);
+		this.setState({typing});
 	},
 
 	_userLeft(data) {
@@ -134,10 +152,11 @@ var ChatApp = React.createClass({
 		this.setState({users, messages});
 	},
 
+	handleMessageFormClick(message) {
+		socket.emit('user:typing',message);
+	},
+
 	handleMessageSubmit(message) {
-		var {messages} = this.state;
-		//messages.push(message);
-		this.setState({messages});
 		socket.emit('send:message', message);
 	},
 	render() {
@@ -150,7 +169,9 @@ var ChatApp = React.createClass({
 					messages={this.state.messages}
 				/>
 				<MessageForm
-					onMessageSubmit={this.handleMessageSubmit}
+					onMessageSubmit={this.handleMessageSubmit} 
+					onMessageClick={this.handleMessageFormClick}
+					typing={this.state.typing}
 				/>			
 			</div>
 		);

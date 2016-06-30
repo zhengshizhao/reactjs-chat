@@ -82,8 +82,18 @@ var MessageForm = React.createClass({
 		this.props.onMessageSubmit(message);
 		this.setState({ text: '' });
 	},
+
+	//when clicked, shows this is typing
+
+	handleClick: function handleClick(e) {
+		e.preventDefault();
+		var message = {
+			user: this.props.user
+		};
+		this.props.onMessageClick(message);
+	},
 	changeHandler: function changeHandler(e) {
-		this.setState({ text: e.target.value });
+		this.setState({ text: e.target.value, typing: '' });
 	},
 	render: function render() {
 		return React.createElement(
@@ -93,8 +103,8 @@ var MessageForm = React.createClass({
 				'form',
 				{ onSubmit: this.handleSubmit },
 				React.createElement('input', {
-					onChange: this.changeHandler,
-					value: this.state.text
+					onChange: this.changeHandler, onClick: this.handleClick,
+					value: this.state.text, placeholder: this.props.typing
 				}),
 				' ',
 				React.createElement(
@@ -110,12 +120,13 @@ var MessageForm = React.createClass({
 var ChatApp = React.createClass({
 	displayName: 'ChatApp',
 	getInitialState: function getInitialState() {
-		return { users: [], messages: [], text: '' };
+		return { users: [], messages: [], text: '', typing: '' };
 	},
 	componentDidMount: function componentDidMount() {
 		socket.on('init', this._initialize);
 		socket.on('send:message', this._messageRecieve);
 		socket.on('user:join', this._userJoined);
+		socket.on('user:typing', this._userTyping);
 		socket.on('user:left', this._userLeft);
 	},
 	_initialize: function _initialize(data) {
@@ -128,9 +139,12 @@ var ChatApp = React.createClass({
 		var _state = this.state;
 		var users = _state.users;
 		var messages = _state.messages;
+		var typing = _state.typing;
+		var _ref = "";
+		var typing = _ref.typing;
 
 		messages.push(message);
-		this.setState({ users: users, messages: messages });
+		this.setState({ users: users, messages: messages, typing: typing });
 	},
 	_userJoined: function _userJoined(data) {
 		var _state2 = this.state;
@@ -144,6 +158,15 @@ var ChatApp = React.createClass({
 			text: name + ' Joined'
 		});
 		this.setState({ users: users, messages: messages });
+	},
+
+	//_usertyping added
+	_userTyping: function _userTyping(data) {
+		var typing = this.state.typing;
+		var typing = data.typing;
+		//messages.push(data);
+
+		this.setState({ typing: typing });
 	},
 	_userLeft: function _userLeft(data) {
 		var _state3 = this.state;
@@ -159,11 +182,11 @@ var ChatApp = React.createClass({
 		});
 		this.setState({ users: users, messages: messages });
 	},
-	handleMessageSubmit: function handleMessageSubmit(message) {
-		var messages = this.state.messages;
-		//messages.push(message);
+	handleMessageFormClick: function handleMessageFormClick(message) {
 
-		this.setState({ messages: messages });
+		socket.emit('user:typing', message);
+	},
+	handleMessageSubmit: function handleMessageSubmit(message) {
 		socket.emit('send:message', message);
 	},
 	render: function render() {
@@ -177,7 +200,9 @@ var ChatApp = React.createClass({
 				messages: this.state.messages
 			}),
 			React.createElement(MessageForm, {
-				onMessageSubmit: this.handleMessageSubmit
+				onMessageSubmit: this.handleMessageSubmit,
+				onMessageClick: this.handleMessageFormClick,
+				typing: this.state.typing
 			})
 		);
 	}

@@ -16,10 +16,10 @@ var userNames = (function () {
     var name,
       nextUserId = 1;
 
-    do {
-      name = 'Guest ' + nextUserId;
+     do {
+      name = 'User' + nextUserId;
       nextUserId += 1;
-    } while (!claim(name));
+     } while (!claim(name));
 
     return name;
   };
@@ -65,15 +65,14 @@ module.exports = function (socket) {
 
   // broadcast a user's message to other users
   socket.on('send:message', function (data) {
-    socket.broadcast.emit('send:message', {
-      user: name,
-      text: data.text
-    });
-    socket.emit('send:message', {
-      user: 'me',
-      text: data.text
-    });
-
+      socket.broadcast.emit('send:message', {
+        user: name,
+        text: data.text
+      });
+      socket.emit('send:message', {
+        user: 'me',
+        text: data.text
+      });
   });
 
   // clean up when a user leaves, and broadcast it to other users
@@ -85,8 +84,8 @@ module.exports = function (socket) {
   });
 
   // show typing when other user is typing
-  socket.on('type', function(typing){
-    socket.broadcast.emit('type', {name:name, istyping: true});
+  socket.on('user:typing', function() {
+    socket.broadcast.emit('user:typing', {typing: name + " is typing..."});
   })
-
+  
 };
