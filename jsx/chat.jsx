@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var classNames = require('classnames');  
 //var socket = io.connect();
 var socket = io(window.location.origin); 
  
@@ -26,12 +27,22 @@ var UsersList = React.createClass({
 	}
 });
 var Message = React.createClass({
+	
 	render() {
-		return (
-			<div className="message">
+		var messageClassnames = classNames({
+				'message': true,
+				'mymessage': this.props.user === 'Me',
+				'othersmessage': this.props.user !== 'Me',
+				'anouncement': this.props.user === 'System anouncement:'
+	   });
+		 
+		return ( 
+			
+			<div className={messageClassnames}>
 				<strong>{this.props.user} </strong> 
 				<span>{this.props.text}</span>		
-			</div>
+			</div>	
+			
 		);
 	}
 });
@@ -78,8 +89,15 @@ var MessageForm = React.createClass({
 		}
 		this.props.onMessageClick(message);
 	},
+
 	changeHandler(e) {
-		this.setState({ text : e.target.value, typing:''});
+		this.setState({ text : e.target.value});
+		if (this.state.text) {
+			var message = {
+				user : this.props.user
+		    }
+			this.props.onMessageClick(message);
+		}
 	},
 
 	render() {
@@ -125,7 +143,7 @@ var ChatApp = React.createClass({
 	var {name} = data;
 	users.push(name);
 	messages.push({
-		user: 'System anounce',
+		user: 'System anouncement:',
 		text : name +' Joined'
 	});
     this.setState({users, messages});
@@ -144,7 +162,7 @@ var ChatApp = React.createClass({
 		var index = users.indexOf(name);
 		users.splice(index, 1);
 		messages.push({
-			user: 'System anounce',
+			user: 'System anouncement:',
 			text : name +' Left'
 		});
 		this.setState({users, messages});

@@ -10,12 +10,10 @@ var userNames = (function () {
       return true;
     }
   };
-
   // find the lowest unused "guest" name and claim it
   var getGuestName = function () {
     var name,
       nextUserId = 1;
-
      do {
       name = 'User' + nextUserId;
       nextUserId += 1;
@@ -30,7 +28,6 @@ var userNames = (function () {
     for (user in names) {
       res.push(user);
     }
-
     return res;
   };
 
@@ -39,7 +36,6 @@ var userNames = (function () {
       delete names[name];
     }
   };
-
   return {
     claim: claim,
     free: free,
@@ -52,13 +48,13 @@ var userNames = (function () {
 module.exports = function (socket) {
   var name = userNames.getGuestName();
 
-  // send the new user their name and a list of users
+  // send the new user their name and a list of inline users
   socket.emit('init', {
     name: name,
     users: userNames.get()
   });
 
-  // notify other clients that a new user has joined
+  // notify other clients that a new user is online
   socket.broadcast.emit('user:join', {
     name: name
   });
@@ -70,7 +66,7 @@ module.exports = function (socket) {
         text: data.text
       });
       socket.emit('send:message', {
-        user: 'me',
+        user: 'Me',
         text: data.text
       });
   });
@@ -83,7 +79,7 @@ module.exports = function (socket) {
     userNames.free(name);
   });
 
-  // show typing when other user is typing
+  // broadcast to other users when a user is typing
   socket.on('user:typing', function() {
     socket.broadcast.emit('user:typing', {typing: name + " is typing..."});
   })

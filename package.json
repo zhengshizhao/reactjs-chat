@@ -24,6 +24,7 @@
   "homepage": "https://github.com/zhengshizhao/reactjs-chat",
   "dependencies": {
     "babel-preset-react": "^6.11.1",
+    "classnames": "^2.2.5",
     "express": "^4.14.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

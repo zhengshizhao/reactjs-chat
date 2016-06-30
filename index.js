@@ -17,8 +17,8 @@ app.get('/', function (req, res) {
 });
 // creates a new connection server for web sockets and integrates it into HTTP server 
 var io = socketio(server);
-// use socket server as an event emitter in order to listen for new connctions
 var sokect = require('./routes/socket.js')
+// use socket server as an event emitter in order to listen for new connctions
 io.on('connection', sokect)
 
 var port = 3000;
